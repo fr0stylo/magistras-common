@@ -6,7 +6,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	requestContext "github.com/fr0stylo/magistras/common/pkg/context"
 	"github.com/fr0stylo/magistras/common/pkg/services/authentication"
 )
 
@@ -36,7 +35,7 @@ func WithAuthenticationUserContext() echo.MiddlewareFunc {
 				return c.JSON(http.StatusUnauthorized, &Response{Error: "Unauthorized"})
 			}
 
-			cc := requestContext.LoggedUserContext{c, *user}
+			cc := authentication.LoggedUserContext{c, *user}
 
 			return next(cc)
 		}
