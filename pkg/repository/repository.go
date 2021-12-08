@@ -34,6 +34,21 @@ func (repo *Repository) GetAllPaged(ctx context.Context, query bson.M, skip int6
 	return
 }
 
+func (repo *Repository) GetAll(ctx context.Context, query bson.M, result interface{}) (hasNext bool, err error) {
+	queryResponse, err := repo.collection.Find(ctx, query)
+	if err != nil {
+		return false, err
+	}
+	defer queryResponse.Close(ctx)
+	hasNext = queryResponse.TryNext(ctx)
+
+	if err := queryResponse.All(ctx, result); err != nil {
+		return false, err
+	}
+
+	return
+}
+
 func (repo *Repository) GetById(ctx context.Context, oid string, result interface{}) (err error) {
 	id, err := primitive.ObjectIDFromHex(oid)
 	if err != nil {
