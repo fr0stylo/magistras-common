@@ -37,6 +37,7 @@ func init() {
 	authHttpClient = httpclient.NewClient("https://auth:8000", &http.Transport{
 		TLSClientConfig: &tls.Config{
 			RootCAs: caCertPool,
+			InsecureSkipVerify: true,
 		},
 	})
 }
