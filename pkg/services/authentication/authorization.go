@@ -2,7 +2,6 @@ package authentication
 
 import (
 	"context"
-	"crypto/tls"
 	"crypto/x509"
 	"io/ioutil"
 	"log"
@@ -34,12 +33,7 @@ func init() {
 
 	caCertPool.AppendCertsFromPEM(caCert)
 
-	authHttpClient = httpclient.NewClient("https://auth:8000", &http.Transport{
-		TLSClientConfig: &tls.Config{
-			RootCAs: caCertPool,
-			InsecureSkipVerify: true,
-		},
-	})
+	authHttpClient = httpclient.NewClient("http://auth:8000", &http.Transport{})
 }
 
 func GetAuthenticatedUser(ctx context.Context) (*User, error) {
