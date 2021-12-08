@@ -3,7 +3,6 @@ package httpclient
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -12,10 +11,12 @@ type client struct {
 	baseUrl    string
 }
 
-func NewClient(url string) *client {
+func NewClient(url string, transport *http.Transport) *client {
 	return &client{
-		httpClient: &http.Client{},
-		baseUrl:    url,
+		httpClient: &http.Client{
+			Transport: transport,
+		},
+		baseUrl: url,
 	}
 }
 
@@ -30,7 +31,6 @@ func (c *client) Get(ctx context.Context, url string, response interface{}) erro
 
 func (c *client) DoRequest(req *http.Request, response interface{}) error {
 	cookie, ok := req.Context().Value("cookie").(*http.Cookie)
-	log.Print("Cookie", cookie)
 	if ok {
 		req.AddCookie(cookie)
 	}
