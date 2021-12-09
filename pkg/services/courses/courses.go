@@ -16,7 +16,10 @@ type Client interface {
 }
 
 func init() {
-	courseClient = httpclient.NewClient("http://courses:8000", &http.Transport{})
+	courseClient = httpclient.NewClient("http://courses:8000", &http.Transport{
+		MaxIdleConnsPerHost: 1024,
+		DisableKeepAlives:   false,
+  })
 }
 
 func GerCourse(ctx context.Context, id primitive.ObjectID, course interface{}) error {
