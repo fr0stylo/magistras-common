@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	httpclient "github.com/fr0stylo/magistras/common/pkg/servces/httpClient"
+	httpclient "github.com/fr0stylo/magistras/common/pkg/services/httpClient"
 )
 
 var authHttpClient Client
