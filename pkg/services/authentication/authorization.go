@@ -36,14 +36,14 @@ func GetAuthenticatedUser(ctx context.Context) (*User, error) {
 	return &user, err
 }
 
-func GetUsersByIds(ctx context.Context, ids []string) (*map[string]interface{}, error) {
+func GetUsersByIds(ctx context.Context, ids []string) ([]map[string]interface{}, error) {
 	if authHttpClient == nil {
 		NewClient()
 	}
 
-	var user map[string]interface{}
+	var user []map[string]interface{}
 	queryIds := strings.Join(ids, ",")
 	err := authHttpClient.Get(ctx, "/users?ids="+queryIds, &user)
 
-	return &user, err
+	return user, err
 }
