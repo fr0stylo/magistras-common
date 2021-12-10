@@ -26,7 +26,7 @@ func NewClient() {
 }
 
 func GetAuthenticatedUser(ctx context.Context) (*User, error) {
-	if authHttpClient != nil {
+	if authHttpClient == nil {
 		NewClient()
 	}
 
@@ -37,7 +37,7 @@ func GetAuthenticatedUser(ctx context.Context) (*User, error) {
 }
 
 func GetUsersByIds(ctx context.Context, ids []string) (*map[string]interface{}, error) {
-	if authHttpClient != nil {
+	if authHttpClient == nil {
 		NewClient()
 	}
 
