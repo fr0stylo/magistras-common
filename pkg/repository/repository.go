@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -79,8 +80,9 @@ func (repo *Repository) DeleteById(ctx context.Context, oid string) (err error) 
 }
 
 func (repo *Repository) Delete(ctx context.Context, filter interface{}) (err error) {
-	_, err = repo.collection.DeleteMany(ctx, filter)
+	number, err := repo.collection.DeleteMany(ctx, filter)
 
+	log.Print("Deleted: ", number)
 	return err
 }
 
