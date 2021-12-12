@@ -68,3 +68,28 @@ func (repo *Repository) Insert(ctx context.Context, item interface{}) (id string
 	return res.InsertedID.(primitive.ObjectID).Hex(), err
 
 }
+
+func (repo *Repository) DeleteById(ctx context.Context, oid string) (err error) {
+	id, err := primitive.ObjectIDFromHex(oid)
+	if err != nil {
+		return err
+	}
+
+	return repo.Delete(ctx, bson.M{"_id": id})
+}
+
+func (repo *Repository) Delete(ctx context.Context, filter bson.M) (err error) {
+	_, err = repo.collection.DeleteMany(ctx, filter)
+
+	return err
+}
+
+type Database interface {
+	GetAllPaged(ctx context.Context, query bson.M, skip int64, take int64, result interface{}) (hasNext bool, err error)
+	GetAll(ctx context.Context, query bson.M, result interface{}) (hasNext bool, err error)
+	GetById(ctx context.Context, oid string, result interface{}) (err error)
+	Insert(ctx context.Context, item interface{}) (id string, err error)
+	Get(ctx context.Context, query bson.M, result interface{}) (err error)
+	Delete(ctx context.Context, filter bson.M) (err error)
+	DeleteById(ctx context.Context, oid string) (err error)
+}
