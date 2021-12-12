@@ -78,7 +78,7 @@ func (repo *Repository) DeleteById(ctx context.Context, oid string) (err error) 
 	return repo.Delete(ctx, bson.M{"_id": id})
 }
 
-func (repo *Repository) Delete(ctx context.Context, filter bson.M) (err error) {
+func (repo *Repository) Delete(ctx context.Context, filter interface{}) (err error) {
 	_, err = repo.collection.DeleteMany(ctx, filter)
 
 	return err
@@ -90,6 +90,6 @@ type Database interface {
 	GetById(ctx context.Context, oid string, result interface{}) (err error)
 	Insert(ctx context.Context, item interface{}) (id string, err error)
 	Get(ctx context.Context, query bson.M, result interface{}) (err error)
-	Delete(ctx context.Context, filter bson.M) (err error)
+	Delete(ctx context.Context, filter interface{}) (err error)
 	DeleteById(ctx context.Context, oid string) (err error)
 }
