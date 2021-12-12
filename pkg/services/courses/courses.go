@@ -19,11 +19,17 @@ func init() {
 	courseClient = httpclient.NewClient("http://courses:8000", &http.Transport{
 		MaxIdleConnsPerHost: 1024,
 		DisableKeepAlives:   false,
-  })
+	})
 }
 
 func GerCourse(ctx context.Context, id primitive.ObjectID, course interface{}) error {
 	err := courseClient.Get(ctx, "/"+id.Hex(), course)
+
+	return err
+}
+
+func GetStudentCourses(ctx context.Context, studentId primitive.ObjectID, course interface{}) error {
+	err := courseClient.Get(ctx, "/?studentId="+studentId.Hex(), course)
 
 	return err
 }
