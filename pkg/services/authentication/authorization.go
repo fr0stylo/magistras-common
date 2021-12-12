@@ -43,7 +43,7 @@ func GetUsersByIds(ctx context.Context, usersToInclude []string, usersToExclude 
 
 	var user []map[string]interface{}
 	includeIds := strings.Join(usersToInclude, ",")
-	excludeIds := strings.Join(usersToInclude, ",")
+	excludeIds := strings.Join(usersToExclude, ",")
 
 	err := authHttpClient.Get(ctx, "/users?include="+includeIds+"&exclude="+excludeIds, &user)
 
