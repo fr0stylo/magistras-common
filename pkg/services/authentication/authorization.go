@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -36,7 +37,7 @@ func GetAuthenticatedUser(ctx context.Context) (*User, error) {
 	return &user, err
 }
 
-func GetUsersByIds(ctx context.Context, usersToInclude []string, usersToExclude []string) ([]map[string]interface{}, error) {
+func GetUsersByIds(ctx context.Context, usersToInclude []string, usersToExclude []string, role int) ([]map[string]interface{}, error) {
 	if authHttpClient == nil {
 		NewClient()
 	}
@@ -45,7 +46,7 @@ func GetUsersByIds(ctx context.Context, usersToInclude []string, usersToExclude 
 	includeIds := strings.Join(usersToInclude, ",")
 	excludeIds := strings.Join(usersToExclude, ",")
 
-	err := authHttpClient.Get(ctx, "/users?include="+includeIds+"&exclude="+excludeIds, &user)
+	err := authHttpClient.Get(ctx, fmt.Sprintf("/users?include=%s&exclude=%s&role=%d", includeIds, excludeIds, role), &user)
 
 	return user, err
 }
