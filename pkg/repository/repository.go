@@ -86,6 +86,12 @@ func (repo *Repository) Delete(ctx context.Context, filter interface{}) (err err
 	return err
 }
 
+func (repo *Repository) Update(ctx context.Context, filter interface{}, item interface{}) error {
+	_, err := repo.collection.UpdateMany(ctx, filter, item)
+
+	return err
+}
+
 type Database interface {
 	GetAllPaged(ctx context.Context, query bson.M, skip int64, take int64, result interface{}) (hasNext bool, err error)
 	GetAll(ctx context.Context, query bson.M, result interface{}) (hasNext bool, err error)
@@ -94,4 +100,5 @@ type Database interface {
 	Get(ctx context.Context, query bson.M, result interface{}) (err error)
 	Delete(ctx context.Context, filter interface{}) (err error)
 	DeleteById(ctx context.Context, oid string) (err error)
+	Update(ctx context.Context, filter interface{}, item interface{}) error
 }
